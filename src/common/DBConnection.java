@@ -1,3 +1,4 @@
+/*
 package common;
 
 import java.sql.Connection;
@@ -32,9 +33,7 @@ public class DBConnection {
         return c;
     }
 }
-
-
-/*
+*/
 
 package common;
 
@@ -46,7 +45,7 @@ import java.sql.SQLException;
 // https://stackoverflow.com/questions/12297475/how-to-find-sql-server-running-port
 
 public class DBConnection {
-    private static final String DRIVER = "com.microsoft.sqlserver.jdbc.SQLServerDriver"; // nome do driver
+    private static final String DRIVER = "com.microsoft.sqlserver.jdbc.SQLServerDriver"; // https://learn.microsoft.com/en-us/sql/connect/jdbc/download-microsoft-jdbc-driver-for-sql-server?view=sql-server-ver16
     private static final String HOST_NAME = "localhost"; // IP ou hostname do servidor
     private static final String DB_PORT = "1433"; // Porta do banco de dados
     private static final String DB_NAME = "Marketplace"; // Nome do banco de dados
@@ -76,5 +75,3 @@ public class DBConnection {
         return connection;
     }
 }
-
-*/

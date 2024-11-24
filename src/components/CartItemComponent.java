@@ -12,10 +12,10 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import models.CartItemModel;
+import views.CartView; // Importar a CartView para a notificação
 import views.ProductView;
 
 public class CartItemComponent extends HBox {
-
     protected final ImageView productImage;
     protected final VBox infoBox;
     protected final TextFlow productNameBox;
@@ -28,23 +28,22 @@ public class CartItemComponent extends HBox {
     protected final Text productQuantity;
     protected final Button addButton;
 
-    public CartItemComponent(CartItemModel item) {
+    private final CartItemModel item; // Referência ao modelo do item
+    private final CartView cartView; // Referência à CartView para notificações
+
+    public CartItemComponent(CartView cartView, CartItemModel item) {
+        this.item = item; // Inicializa o item
+        this.cartView = cartView; // Inicializa a referência à CartView
 
         setPrefHeight(200.0);
         setStyle("-fx-background-color: rgb(230, 229, 229); -fx-background-radius: 10;");
 
-
-        
         infoBox = new VBox();
         infoBox.setPadding(new Insets(20.0));
 
-
         productNameBox = new TextFlow();
 
-
-
         productImage = new ImageView();
-
         productImage.setFitHeight(200.0);
         productImage.setFitWidth(200.0);
         productImage.setPickOnBounds(true);
@@ -56,11 +55,7 @@ public class CartItemComponent extends HBox {
             ViewController.navigate(new ProductView(item.getProduct()));
         });
 
-
-
-
         productName = new Text();
-
         productName.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         productName.setStrokeWidth(0.0);
         productName.setText(item.getProduct().getName());
@@ -70,69 +65,36 @@ public class CartItemComponent extends HBox {
             ViewController.navigate(new ProductView(item.getProduct()));
         });
 
-
-
-
-
         priceBox = new HBox();
-
         priceBox.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
         priceBox.setPrefHeight(100.0);
         priceBox.setPrefWidth(200.0);
         VBox.setMargin(priceBox, new Insets(20.0, 0.0, 20.0, 0.0));
 
-
-
-
-
-
-
-
         productOldPrice = new Text();
-
         if (item.getProduct().getDiscount() > 0) {
-
             productOldPrice.setFill(javafx.scene.paint.Color.RED);
             productOldPrice.setStrikethrough(true);
             productOldPrice.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
             productOldPrice.setStrokeWidth(0.0);
-            productOldPrice.setText("R$" + String.format("%.2f", item.getProduct().getPrice() - (item.getProduct().getPrice() * item.getProduct().getDiscount())));
+            productOldPrice.setText("R$" + String.format("%.2f", item.getProduct().getPrice()));
             HBox.setMargin(productOldPrice, new Insets(0.0, 0.0, 10.0, 0.0));
             priceBox.getChildren().add(productOldPrice);
         }
 
-
         productPrice = new Text();
-
         productPrice.setFill(javafx.scene.paint.Color.valueOf("#499e35"));
         productPrice.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         productPrice.setStrokeWidth(0.0);
-        productPrice.setText("R$" + String.format("%.2f", item.getProduct().getPrice()));
+        productPrice.setText("R$" + String.format("%.2f", item.getProduct().getPrice() - (item.getProduct().getPrice() * item.getProduct().getDiscount())));
         productPrice.setFont(new Font(20.0));
 
-
-
-
-
-
-
-
         buttonsBox = new HBox();
-
         buttonsBox.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
         buttonsBox.setPrefHeight(100.0);
         buttonsBox.setPrefWidth(200.0);
 
-
-
-
-
-
-
-
-
         removeButton = new Button();
-
         removeButton.setMnemonicParsing(false);
         removeButton.setPrefHeight(30.0);
         removeButton.setPrefWidth(30.0);
@@ -141,27 +103,19 @@ public class CartItemComponent extends HBox {
         removeButton.setFont(new Font(14.0));
         removeButton.setCursor(Cursor.HAND);
 
-        // TODO: Colocar a função do botao de remover
-
-
-
-
+        // Ação do botão de remover
+        removeButton.setOnAction(event -> {
+            decrementQuantity();
+        });
 
         productQuantity = new Text();
-
         productQuantity.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         productQuantity.setStrokeWidth(0.0);
         productQuantity.setText(String.valueOf(item.getQuantity()));
         productQuantity.setFont(new Font(14.0));
         HBox.setMargin(productQuantity, new Insets(15.0));
 
-
-
-
-
-
         addButton = new Button();
-
         addButton.setMnemonicParsing(false);
         addButton.setPrefHeight(30.0);
         addButton.setPrefWidth(30.0);
@@ -169,19 +123,15 @@ public class CartItemComponent extends HBox {
         addButton.setText("+");
         addButton.setFont(new Font(14.0));
         addButton.setCursor(Cursor.HAND);
-        
 
-        // TODO: Colocar a função do botao de adicionar
-
-
-
-
-
+        // Ação do botão de adicionar
+        addButton.setOnAction(event -> {
+            incrementQuantity();
+        });
 
         getChildren().add(productImage);
         productNameBox.getChildren().add(productName);
         infoBox.getChildren().add(productNameBox);
-        
         priceBox.getChildren().add(productPrice);
         infoBox.getChildren().add(priceBox);
         buttonsBox.getChildren().add(removeButton);
@@ -189,6 +139,26 @@ public class CartItemComponent extends HBox {
         buttonsBox.getChildren().add(addButton);
         infoBox.getChildren().add(buttonsBox);
         getChildren().add(infoBox);
+    }
 
+    // Método para incrementar a quantidade
+    private void incrementQuantity() {
+        item.setQuantity(item.getQuantity() + 1);
+        productQuantity.setText(String.valueOf(item.getQuantity()));
+        // Notificar a CartView para atualizar a interface
+        cartView.updateItemQuantity(item);
+    }
+
+    // Método para decrementar a quantidade
+    private void decrementQuantity() {
+        if (item.getQuantity() > 1) {
+            item.setQuantity(item.getQuantity() - 1);
+            productQuantity.setText(String.valueOf(item.getQuantity()));
+            // Notificar a CartView para atualizar a interface
+            cartView.updateItemQuantity(item);
+        } else {
+            // Se a quantidade chegar a zero, remover o item do carrinho
+            cartView.removeItem(item.getProduct().getId());
+        }
     }
 }
