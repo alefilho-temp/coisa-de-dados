@@ -170,7 +170,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.web.HTMLEditor;
 import javafx.stage.FileChooser;
 import models.ProductModel;
@@ -216,8 +215,6 @@ public class ProductManagementCrud extends BorderPane {
                 0,
                 0
             ));
-            
-            
         }
 
         setPadding(new Insets(10));

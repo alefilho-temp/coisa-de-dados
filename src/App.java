@@ -1,5 +1,4 @@
-import java.net.MalformedURLException;
-
+import common.DBConnection;
 import common.Utils;
 import common.ViewController;
 import components.ContainerComponent;
@@ -15,7 +14,14 @@ public class App extends Application {
     private ViewController ViewController;
 
     @Override
-    public void start(Stage stage) throws MalformedURLException { 
+    public void start(Stage stage) { 
+        try {
+            DBConnection.getConnection();
+        } catch (Exception e) {
+            System.out.println("Erro de conexão");
+            System.out.println(e);
+        }
+
         ViewController = new ViewController(stage);
 
         HomeView home = new HomeView();
