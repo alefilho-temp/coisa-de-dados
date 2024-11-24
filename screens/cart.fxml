@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+
+<ScrollPane fitToWidth="true" hbarPolicy="NEVER" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <content>
+      <VBox alignment="TOP_CENTER" maxHeight="1080.0" maxWidth="1920.0" prefHeight="720.0" prefWidth="1080.0">
+         <children>
+            <FlowPane style="-fx-border-color: black; -fx-border-width: 1;">
+               <children>
+                  <HBox alignment="CENTER_LEFT" prefHeight="30.0">
+                     <children>
+                        <Text fill="#009dff" strokeType="OUTSIDE" strokeWidth="0.0" text="Voltar">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Text>
+                     </children>
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
+                  </HBox>
+               </children>
+            </FlowPane>
+            <HBox alignment="CENTER_LEFT" prefHeight="40.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Total: R$1000.00">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Text>
+                  <AnchorPane prefHeight="32.0" HBox.hgrow="ALWAYS" />
+                  <Button mnemonicParsing="false" style="-fx-background-color: rgb(255, 222, 89); -fx-background-radius: 10;" text="Finalizar Compra" textAlignment="CENTER">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </padding>
+            </HBox>
+            <VBox spacing="20.0">
+               <children>
+                  <HBox prefHeight="200.0" style="-fx-background-color: rgb(230, 229, 229); -fx-background-radius: 10;">
+                     <children>
+                        <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../products/galaxy-fold.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <VBox>
+                           <children>
+                              <TextFlow>
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Samsung Galaxy Z Fold5 512GB Tela dobrável de 7.6\&quot; Dual Chip 12GB RAM Câm. Tripla até 50MP + Selfie 10MP – Creme">
+                                       <font>
+                                          <Font size="24.0" />
+                                       </font>
+                                    </Text>
+                                 </children>
+                              </TextFlow>
+                              <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <Text fill="RED" strikethrough="true" strokeType="OUTSIDE" strokeWidth="0.0" text="R$1500.00">
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" />
+                                       </HBox.margin>
+                                    </Text>
+                                    <Text fill="#499e35" strokeType="OUTSIDE" strokeWidth="0.0" text="R$1000.00">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Text>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets bottom="20.0" top="20.0" />
+                                 </VBox.margin>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: rgb(252, 251, 240); -fx-background-radius: 10;" text="-">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Button>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="1">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                                       </HBox.margin>
+                                    </Text>
+                                    <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: rgb(252, 251, 240); -fx-background-radius: 10;" text="+">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Button>
+                                 </children>
+                              </HBox>
+                           </children>
+                           <padding>
+                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                           </padding>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+               <VBox.margin>
+                  <Insets left="20.0" right="20.0" />
+               </VBox.margin>
+            </VBox>
+         </children>
+      </VBox>
+   </content>
+</ScrollPane>
