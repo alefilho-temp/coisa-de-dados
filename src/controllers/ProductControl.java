@@ -1,13 +1,13 @@
 package controllers;
 
-import daos.ProductDAO;
-import daos.ProductDAOImpl;
 import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import models.ProductModel;
+import service.ProductDAO;
+import service.ProductDAOImpl;
 
 /**
  * Classe responsável pelo controle de produtos.

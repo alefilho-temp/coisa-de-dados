@@ -7,6 +7,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import views.CategoryView;
 import views.HomeView;
 import views.ProductManagementView;
 
@@ -43,6 +44,21 @@ public class App extends Application {
                     {
                         body.getChildren().add(new ReturnBarComponent()); // Adiciona a barra de retorno
                         body.getChildren().add(new ProductManagementView()); // Adiciona a visualização de gerenciamento de produtos
+                    }
+                };
+
+                event.consume(); // Consome o evento para evitar propagação
+
+                viewController.navigate(productManager); // Navega para a nova visualização
+            }
+        });
+
+        mainScene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode().toString().equals("F3")) { // Verifica se a tecla F2 foi pressionada
+                ContainerComponent productManager = new ContainerComponent() {
+                    {
+                        body.getChildren().add(new ReturnBarComponent()); // Adiciona a barra de retorno
+                        body.getChildren().add(new CategoryView()); // Adiciona a visualização de gerenciamento de produtos
                     }
                 };
 

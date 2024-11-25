@@ -9,6 +9,7 @@ import java.nio.file.StandardCopyOption;
 import java.security.SecureRandom;
 
 import javafx.scene.image.Image;
+import models.Cliente;
 
 /**
  * Classe utilitária que fornece métodos auxiliares para operações comuns.
@@ -109,5 +110,15 @@ public class Utils {
             stringBuilder.append(CHARACTERS.charAt(index));
         }
         return stringBuilder.toString();
+    }
+
+    Cliente getClientByName() {
+        // TODO: Fazer o codigo de pegar o cliente pelo nome, retornar null se nao tiver
+        return null;
+    }
+
+    int createCart(Cliente client) {
+        // TODO: Fazer o codigo de criar o carrinho se nao tiver
+        return 0;
     }
 }
