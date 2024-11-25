@@ -1,8 +1,9 @@
 package common;
 
 import java.util.ArrayList;
-
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
 /**
@@ -43,7 +44,10 @@ public class ViewController {
      * @param back indica se a navegação é uma ação de voltar
      */
     public static void navigate(Parent root, boolean back) {
-        if (!back) history.add(stage.getScene().getRoot());
+        if (!back) {
+            history.add(stage.getScene().getRoot());
+            // showAlert("Navegação", "Navegando para uma nova visualização.");
+        }
         stage.getScene().setRoot(root);
         System.out.println("Navegando");
     }
@@ -57,8 +61,10 @@ public class ViewController {
     public static void navigateBack() {
         if (history.size() > 0) {
             navigate(history.remove(history.size() - 1), true);
+            // showAlert("Navegação", "Voltando para a visualização anterior.");
             System.out.println("Voltando");
         } else {
+            showAlert("Erro", "Não tem pra onde voltar. Voltando.");
             System.out.println("Não tem pra onde voltar. Voltando");
         }
     }
@@ -70,5 +76,19 @@ public class ViewController {
      */
     public static Stage getStage() {
         return stage;
+    }
+
+    /**
+     * Exibe um alerta com uma mensagem.
+     *
+     * @param title o título do alerta
+     * @param message a mensagem a ser exibida no alerta
+     */
+    public static void showAlert(String title, String message) {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

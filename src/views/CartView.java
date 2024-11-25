@@ -18,16 +18,26 @@ import javafx.scene.text.Text;
 import models.CartItemModel;
 import models.ProductModel;
 
+/**
+ * Classe que representa a visualização do carrinho de compras.
+ * 
+ * Esta classe gerencia a exibição dos itens no carrinho, o preço total e as interações
+ * do usuário relacionadas à finalização da compra.
+ */
 public class CartView extends ContainerComponent {
-    protected final HBox infoBox;
-    protected final Text finalPrice;
-    protected final AnchorPane anchorPane;
-    protected final Button finishCart;
-    protected final VBox cartItensBox;
+    protected final HBox infoBox; // Caixa que contém informações do carrinho
+    protected final Text finalPrice; // Texto que exibe o preço final
+    protected final AnchorPane anchorPane; // Painel para layout
+    protected final Button finishCart; // Botão para finalizar a compra
+    protected final VBox cartItensBox; // Caixa que contém os itens do carrinho
     
     // Lista para armazenar os itens do carrinho
     private final ArrayList<CartItemModel> itens;
 
+    /**
+     * Construtor da classe CartView.
+     * Inicializa os componentes da visualização do carrinho.
+     */
     public CartView() {
         itens = new ArrayList<>(); // Inicializa a lista de itens
 
@@ -68,11 +78,14 @@ public class CartView extends ContainerComponent {
         VBox.setMargin(cartItensBox, new Insets(0.0, 20.0, 0.0, 20.0));
         body.getChildren().add(cartItensBox);
 
-        getItensFromDB();
-        System.out.println("safasfafsassaffs");
+        getItensFromDB(); // Carrega os itens do carrinho
         body.getChildren().add(new MarginBottomComponent());
     }
 
+    /**
+     * Obtém os itens do carrinho a partir de um banco de dados simulado.
+     * Adiciona os itens à lista e à interface do usuário.
+     */
     public void getItensFromDB() {
         // Adiciona itens ao carrinho
         for (int i = 0; i < 8; i++) {
@@ -90,7 +103,7 @@ public class CartView extends ContainerComponent {
                     "        <li>Memória RAM: 12 GB</li>\r\n" + 
                     "        <li>Compatível com redes 5G</li>\r\n" + 
                     "        <li>Tela AMOLED de 6.8\"</li>\r\n" + 
-                    "        <li>Tem 4 câmeras traseiras de 200Mpx/10Mpx/12Mpx/10Mpx</li>\r\n " +
+                    "        <li>Tem 4 câmeras traseiras de 200Mpx/10Mpx/12Mpx/10Mpx</li>\r\n" + 
                     "        <li>Câmeras frontais de 12mp</li>\r\n" + 
                     "        <li>Processador Snapdragon 8 Gen 2 Octa-Core de 3.36GHz com 12GB de RAM</li>\r\n" + 
                     "        <li>Bateria de 5000mAh com carregamento sem fio</li>\r\n" + 
@@ -107,9 +120,14 @@ public class CartView extends ContainerComponent {
             cartItensBox.getChildren().add(new CartItemComponent(this, item));
         }
 
-        updateFinalPrice();
+        updateFinalPrice(); // Atualiza o preço final após adicionar os itens
     }
 
+    /**
+     * Remove um item do carrinho com base no seu ID.
+     * 
+     * @param id O identificador do item a ser removido.
+     */
     public void removeItem(int id) {
         // Procura o item pelo ID e remove da lista e da interface
         for (int i = 0; i < itens.size(); i++) {
@@ -125,19 +143,27 @@ public class CartView extends ContainerComponent {
         updateFinalPrice();
     }
 
+    /**
+     * Atualiza a quantidade de um item no carrinho.
+     * 
+     * @param targetItem O item com a nova quantidade.
+     */
     public void updateItemQuantity(CartItemModel targetItem) {
         for (int i = 0; i < itens.size(); i++) {
             CartItemModel item = itens.get(i);
 
             if (item.getId() == targetItem.getId()) {
-                item = targetItem; // Remove o componente visual
-                break; // Sai do loop após encontrar e remover o item
+                item = targetItem; // Atualiza o item na lista
+                break; // Sai do loop após encontrar e atualizar o item
             }
         }
         // Atualize o preço final se necessário
         updateFinalPrice();
     }
 
+    /**
+     * Atualiza o preço final do carrinho com base nos itens restantes.
+     */
     public void updateFinalPrice() {
         // Lógica para atualizar o preço final com base nos itens restantes
         float total = 0;
@@ -146,6 +172,6 @@ public class CartView extends ContainerComponent {
             total += (item.getProduct().getPrice() - (item.getProduct().getPrice() * item.getProduct().getDiscount())) * item.getQuantity();
         }
 
-        finalPrice.setText("Total: R$" + total);
+        finalPrice.setText("Total: R$" + total); // Atualiza o texto do preço final
     }
 }

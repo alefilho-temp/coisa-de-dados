@@ -10,53 +10,62 @@ import javafx.stage.Stage;
 import views.HomeView;
 import views.ProductManagementView;
 
-public class App extends Application {
-    private ViewController viewController;
+/**
+ * Classe principal da aplicação, responsável por inicializar e gerenciar a interface gráfica.
+ */
+public class App extends Application { 
+    private ViewController viewController; // Controlador de visualização
 
+    /**
+     * Método que inicia a aplicação.
+     * 
+     * @param stage O palco principal da aplicação.
+     */
     @Override
-    public void start(Stage stage) {
-        initializeDatabaseConnection();
-
-        viewController = new ViewController(stage);
-        HomeView home = new HomeView();
-
-        Scene mainScene = new Scene(home, 1080, 720);
-        setupKeyEventFilter(mainScene);
-
-        stage.setScene(mainScene);
-        stage.getIcons().add(Utils.getImage("assets/icon.png"));
-        stage.setTitle("MarketPlace");
-        stage.show();
-        stage.centerOnScreen();
-    }
-
-    private void initializeDatabaseConnection() {
+    public void start(Stage stage) { 
         try {
-            DBConnection.getConnection();
+            DBConnection.getConnection(); // Estabelece conexão com o banco de dados
         } catch (Exception e) {
             System.out.println("Erro de conexão");
-            e.printStackTrace();
+            System.out.println(e);
         }
-    }
 
-    private void setupKeyEventFilter(Scene mainScene) {
+        viewController = new ViewController(stage); // Inicializa o controlador de visualização
+
+        HomeView home = new HomeView(); // Cria a visualização inicial (HomeView)
+
+        Scene mainScene = new Scene(home, 1080, 720); // Cria a cena principal
+
+        // Adiciona um filtro para eventos de teclado
         mainScene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
-            if (event.getCode().toString().equals("F2")) {
-                ContainerComponent productManager = createProductManager();
-                event.consume();
-                viewController.navigate(productManager);
+            if (event.getCode().toString().equals("F2")) { // Verifica se a tecla F2 foi pressionada
+                ContainerComponent productManager = new ContainerComponent() {
+                    {
+                        body.getChildren().add(new ReturnBarComponent()); // Adiciona a barra de retorno
+                        body.getChildren().add(new ProductManagementView()); // Adiciona a visualização de gerenciamento de produtos
+                    }
+                };
+
+                event.consume(); // Consome o evento para evitar propagação
+
+                viewController.navigate(productManager); // Navega para a nova visualização
             }
         });
+
+        stage.setScene(mainScene); // Define a cena principal no palco
+
+        stage.getIcons().add(Utils.getImage("assets/icon.png")); // Define o ícone da aplicação
+        stage.setTitle("MarketPlace"); // Define o título da janela
+        stage.show(); // Exibe o palco
+        stage.centerOnScreen(); // Centraliza o palco na tela
     }
 
-    private ContainerComponent createProductManager() {
-        return new ContainerComponent() {{
-            body.getChildren().add(new ReturnBarComponent());
-            body.getChildren().add(new ProductManagementView());
-        }};
-    }
-
+    /**
+     * Método principal que inicia a aplicação.
+     * 
+     * @param args Argumentos da linha de comando.
+     */
     public static void main(String[] args) {
-        Application.launch(App.class, args);
+        Application.launch(App.class, args); // Lança a aplicação
     }
 }

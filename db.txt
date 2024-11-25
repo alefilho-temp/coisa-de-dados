@@ -1,0 +1,170 @@
+CREATE DATABASE Marketplace
+GO
+USE Marketplace
+GO
+CREATE TABLE Cadastro (
+    id INTEGER UNIQUE IDENTITY (1, 1),
+    Email VARCHAR(50) NOT NULL,
+    Lougradouro VARCHAR(50) NOT NULL,
+    Numero INTEGER,
+    Bairro VARCHAR(80),
+    Cep INTEGER NOT NULL,
+    PRIMARY KEY (id)
+)
+
+INSERT INTO Cadastro (Email, Lougradouro, Numero, Bairro, Cep)  VALUES ('asfafsas', 'rqwrqrqw', 1432, '314143', 342142)
+GO
+CREATE TABLE Telefone(
+    Telefone INTEGER NOT NULL,
+    CadastroId INTEGER NOT NULL,
+    PRIMARY KEY(Telefone),
+    FOREIGN KEY (CadastroId) REFERENCES Cadastro(id)
+)
+GO
+CREATE TABLE Carrinho(
+    Codigo INTEGER NOT NULL,
+	Valor_Total DECIMAL (6, 2) NOT NULL,
+    PRIMARY KEY (Codigo)
+)
+GO
+CREATE TABLE Vendedor (
+	Cadastro_id INTEGER PRIMARY KEY NOT NULL,
+	Nome_Loja VARCHAR(255),
+	Informacao_loja VARCHAR(80)
+	FOREIGN KEY (Cadastro_id) REFERENCES Cadastro(id)
+	)
+GO
+CREATE TABLE Vendedor_Pessoal (
+	CPF INTEGER NOT NULL,
+	VendedorCadastro_id INTEGER NOT NULL UNIQUE,
+	Nome_Loja VARCHAR(255) NOT NULL,
+	Informacao_Loja VARCHAR(80),
+	Nome VARCHAR(80) NOT NULL,
+	Data_Nascimento DATE NOT NULL,
+	Inscricao_Estadual VARCHAR(50) NOT NULL
+	PRIMARY KEY (CPF, VendedorCadastro_id),
+	FOREIGN KEY (VendedorCadastro_id) REFERENCES Vendedor(Cadastro_id)
+	)
+GO
+CREATE TABLE Vendedor_Empresarial(
+    CNPJ INTEGER NOT NULL UNIQUE,
+    VendedorCadastro_id INTEGER NOT NULL UNIQUE,
+    Razao_Social VARCHAR(100) NOT NULL,
+    Informacao_cobranca VARCHAR(50) NOT NULL,
+    PRIMARY KEY(CNPJ, VendedorCadastro_id),
+	FOREIGN KEY (VendedorCadastro_id) REFERENCES Vendedor(Cadastro_id)
+)
+GO
+CREATE TABLE Categoria (
+	Id INTEGER PRIMARY KEY IDENTITY (1, 1),
+	Nome VARCHAR(30) NOT NULL,
+	Cor VARCHAR(20) NOT NULL
+)
+CREATE TABLE Produto (
+	Id_Produto INTEGER NOT NULL IDENTITY(1, 1) PRIMARY KEY,
+	quantidade INTEGER NOT NULL,
+	preco_Unitario	DECIMAL(6, 2) NOT NULL,
+	nome VARCHAR(100) NOT NULL,
+	descricao VARCHAR(2000),
+	VendedorCadastro_id INTEGER NOT NULL,
+	CategoriaId INTEGER NOT NULL,
+	FOREIGN KEY (VendedorCadastro_id) REFERENCES Vendedor(Cadastro_id),
+	FOREIGN KEY (CategoriaId) REFERENCES Categoria(Id)
+)
+GO
+CREATE TABLE Cliente(
+    CPF INTEGER NOT NULL,
+    Nome_Usuario VARCHAR(80) NOT NULL,
+    Nome VARCHAR(80) NOT NULL,
+    Genero VARCHAR(30) NOT NULL,
+    Data_Nascimento DATE NOT NULL,
+    CadastroId INTEGER NOT NULL,
+	CarrinhoCodigo INTEGER NOT NULL,
+	Historico_CompraCodigo INTEGER NOT NULL,
+    PRIMARY KEY (CPF, CadastroId),
+    FOREIGN KEY (CadastroId) REFERENCES Cadastro(Id),
+	FOREIGN KEY (CarrinhoCodigo) REFERENCES Carrinho(Codigo),
+)
+GO
+CREATE Table Cartao (
+	Numero INTEGER PRIMARY KEY NOT NULL,
+	Data_Vencimento DATE NOT NULL,
+	Codigo_Seguranca INTEGER NOT NULL,
+	Tipo VARCHAR(255) NOT NULL,
+	Nome_Cartao VARCHAR(255) NOT NULL,
+	ClienteCPF INTEGER NOT NULL,
+	ClienteCadastroId INT NOT NULL,
+	FOREIGN KEY (ClienteCPF, ClienteCadastroId) REFERENCES Cliente(CPF, CadastroId)
+)
+GO
+CREATE TABLE Cupon(
+    Numero_Cupon INTEGER NOT NULL,
+    ClienteCPF INTEGER NOT NULL,
+	ClienteCadastroId INTEGER NOT NULL,
+    Porcentagem_Desconto INTEGER NOT NULL,
+    PRIMARY KEY (Numero_Cupon),
+    FOREIGN KEY (ClienteCPF, ClienteCadastroId) REFERENCES Cliente(CPF, CadastroId)
+)
+GO
+CREATE TABLE Compra(
+	Codigo INTEGER NOT NULL UNIQUE,
+	ProdutoId_Produto INTEGER NOT NULL,
+	ClienteCPF INTEGER NOT NULL,
+	ClienteCadastroId INTEGER NOT NULL,
+	DataCompra DATE NOT NULL,
+	Quantidade_comprada INTEGER NOT NULL,
+	PRIMARY KEY (Codigo, ProdutoId_Produto, ClienteCPF, ClienteCadastroId),
+	FOREIGN KEY (ClienteCPF, ClienteCadastroId) REFERENCES Cliente(CPF, CadastroId),
+)
+GO
+CREATE TABLE Socio(
+    Id_socio INTEGER NOT NULL,
+    CadastroId INTEGER NOT NULL,
+    Vendedor_EmpresarialCNPJ INTEGER NOT NULL,
+    Vendedor_EmpresarialCadastro_Id INTEGER NOT NULL
+    PRIMARY KEY (Id_socio, CadastroId),
+    FOREIGN KEY(CadastroId) REFERENCES Cadastro(Id),
+    FOREIGN KEY(Vendedor_EmpresarialCNPJ) REFERENCES Vendedor_Empresarial(CNPJ),
+    FOREIGN KEY(Vendedor_EmpresarialCadastro_Id) REFERENCES Vendedor_Empresarial(VendedorCadastro_id)
+)
+GO
+CREATE TABLE Produto_Carrinho(
+    ProdutoId_Produto INTEGER,
+    CarrinhoCodigo INTEGER,
+	Quantidade_Carrinho INTEGER NOT NULL,
+    FOREIGN KEY (ProdutoId_Produto) REFERENCES Produto(id_Produto),
+    FOREIGN KEY (CarrinhoCodigo) REFERENCES Carrinho(Codigo)
+)
+ALTER TABLE Produto ADD Imagem VARCHAR(255) NOT NULL
+ALTER TABLE Categoria ADD Imagem VARCHAR(255) NOT NULL
+ALTER TABLE Categoria DROP COLUMN Imagem 
+
+ALTER TABLE Produto
+ALTER COLUMN descricao VARCHAR(2000);
+
+SELECT * FROM Cadastro
+UPDATE Cadastro SET email='adfgasava', Lougradouro='adfaaf', Numero=3214, Bairro='342qfas', Cep=231
+WHERE id = 10
+
+
+
+
+
+
+INSERT INTO Vendedor (Cadastro_id, Nome_Loja, Informacao_loja) VALUES (1, 'Lixeira', 'aaahhhh')
+
+
+
+INSERT INTO Categoria (Nome, Cor) VALUES ('SQL Coisas', 'rgb(200, 100, 50)')
+
+
+
+
+
+SELECT * FROM Produto
+
+
+
+
+
+

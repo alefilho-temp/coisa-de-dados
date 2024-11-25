@@ -7,108 +7,54 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextFlow;
 
+/**
+ * Componente de Banner que exibe imagens em um layout horizontal.
+ * 
+ * Este componente é um TextFlow que contém um HBox com duas imagens de banner.
+ */
 public class BannerComponent extends TextFlow {
 
-    protected final HBox bannerBox;
-    protected final ImageView bannerImage;
-    protected final ImageView bannerImage2;
+    protected final HBox bannerBox; // Caixa que contém as imagens do banner
+    protected final ImageView bannerImage; // Primeira imagem do banner
+    protected final ImageView bannerImage2; // Segunda imagem do banner
 
+    /**
+     * Construtor do componente BannerComponent.
+     * 
+     * Este construtor inicializa o layout e as imagens do banner.
+     */
     public BannerComponent() {
-        // HBox Config
-        
+        // Configuração do HBox
         setPrefHeight(200.0);
         setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
         setPadding(new Insets(0, -20, 0, -20));
         VBox.setMargin(this, new Insets(10, -20, 0, -20));
-        // Create Banner Box 
 
+        // Criação da caixa do banner
         bannerBox = new HBox();
         bannerBox.setAlignment(javafx.geometry.Pos.CENTER);
         
-
-        // Create Banner Image
-
+        // Criação da primeira imagem do banner
         bannerImage = new ImageView();
-
         bannerImage.setFitHeight(200.0);
         bannerImage.setPickOnBounds(true);
         bannerImage.setPreserveRatio(true);
-        bannerImage.setImage(Utils.getImage("assets/banner.jpg")); // assets/banner.png
+        bannerImage.setImage(Utils.getImage("assets/banner.jpg")); // Carrega a imagem do banner
 
-        // Add Banner Image
+        // Adiciona a primeira imagem do banner à caixa
         bannerBox.getChildren().add(bannerImage);
 
+        // Criação da segunda imagem do banner
         bannerImage2 = new ImageView();
-
         bannerImage2.setFitHeight(200.0);
         bannerImage2.setPickOnBounds(true);
         bannerImage2.setPreserveRatio(true);
-        bannerImage2.setImage(Utils.getImage("assets/banner.jpg"));
+        bannerImage2.setImage(Utils.getImage("assets/banner.jpg")); // Carrega a imagem do banner
 
+        // Adiciona a segunda imagem do banner à caixa
         bannerBox.getChildren().add(bannerImage2);
         
-        // Add Banner Box
-
+        // Adiciona a caixa do banner ao componente
         getChildren().add(bannerBox);
-
     }
 }
-
-
-
-/*
- * 
- *package components;
-
-import common.Utils;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.text.TextFlow;
-
-public class BannerComponent extends HBox {
-
-    protected final TextFlow bannerBox;
-    protected final ImageView bannerImage;
-    protected final ImageView bannerImage2;
-
-    public BannerComponent() {
-        // HBox Config
-        
-        setAlignment(javafx.geometry.Pos.TOP_CENTER);
-
-        // Create Banner Box 
-
-        bannerBox = new TextFlow();
-        
-        bannerBox.setPrefHeight(200.0);
-        bannerBox.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
-
-        // Create Banner Image
-
-        bannerImage = new ImageView();
-
-        bannerImage.setFitHeight(200.0);
-        bannerImage.setPickOnBounds(true);
-        bannerImage.setPreserveRatio(true);
-        bannerImage.setImage(Utils.getImage("assets/banner.jpg")); // assets/banner.png
-
-        // Add Banner Image
-        bannerBox.getChildren().add(bannerImage);
-
-        bannerImage2 = new ImageView();
-
-        bannerImage2.setFitHeight(200.0);
-        bannerImage2.setPickOnBounds(true);
-        bannerImage2.setPreserveRatio(true);
-        bannerImage2.setImage(Utils.getImage("assets/banner.jpg"));
-
-        bannerBox.getChildren().add(bannerImage2);
-        
-        // Add Banner Box
-
-        getChildren().add(bannerBox);
-
-    }
-}
-
- */

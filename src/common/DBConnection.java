@@ -35,40 +35,62 @@ public class DBConnection {
 }
 */
 
+
 package common;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-// https://stackoverflow.com/questions/23658239/how-to-connect-java-to-microsoft-sql-server
-// https://stackoverflow.com/questions/12297475/how-to-find-sql-server-running-port
-
+/**
+ * Classe responsável pela conexão com o banco de dados SQL Server.
+ * 
+ * Esta classe fornece um método estático para obter uma conexão com o banco de dados
+ * utilizando o driver JDBC do SQL Server.
+ * 
+ * @author Seu Nome
+ */
 public class DBConnection {
-    private static final String DRIVER = "com.microsoft.sqlserver.jdbc.SQLServerDriver"; // https://learn.microsoft.com/en-us/sql/connect/jdbc/download-microsoft-jdbc-driver-for-sql-server?view=sql-server-ver16
-    private static final String HOST_NAME = "localhost"; // IP ou hostname do servidor
-    private static final String DB_PORT = "1433"; // Porta do banco de dados
-    private static final String DB_NAME = "Marketplace"; // Nome do banco de dados
-    private static final String DB_USER = "sa2"; // Nome do usuário do SQL Server
-    private static final String DB_PASS = "senha123"; // Senha do usuário
+    
+    // Driver JDBC para SQL Server
+    private static final String DRIVER = "com.microsoft.sqlserver.jdbc.SQLServerDriver"; 
+    // IP ou hostname do servidor
+    private static final String HOST_NAME = "localhost"; 
+    // Porta do banco de dados
+    private static final String DB_PORT = "1433"; 
+    // Nome do banco de dados
+    private static final String DB_NAME = "Marketplace"; 
+    // Nome do usuário do SQL Server
+    private static final String DB_USER = "sa2"; 
+    // Senha do usuário
+    private static final String DB_PASS = "senha123"; 
 
+    // Conexão com o banco de dados
     private static Connection connection;
 
-    static {
-        
-    }
-
+    /**
+     * Obtém uma conexão com o banco de dados.
+     * 
+     * Este método verifica se a conexão atual é válida. Se não for, ele cria uma nova
+     * conexão utilizando as informações de configuração definidas na classe.
+     * 
+     * @return A conexão com o banco de dados.
+     * @throws SQLException Se ocorrer um erro ao estabelecer a conexão.
+     * @throws ClassNotFoundException Se o driver JDBC não for encontrado.
+     */
     public static Connection getConnection() throws SQLException, ClassNotFoundException {
-        if (
-            connection == null || 
-            connection.isClosed() || 
-            !connection.isValid(1000)
-        ) {
+        // Verifica se a conexão é nula, está fechada ou não é válida
+        if (connection == null || connection.isClosed() || !connection.isValid(1000)) {
+            // Registra o driver JDBC
             Class.forName(DRIVER);
+            
+            // Monta a string de conexão
             String connectionUrl = String.format(
                 "jdbc:sqlserver://%s:%s;DatabaseName=%s;user=%s;password=%s;trustServerCertificate=false;encrypt=false",
                 HOST_NAME, DB_PORT, DB_NAME, DB_USER, DB_PASS
             );
+            
+            // Estabelece a conexão
             connection = DriverManager.getConnection(connectionUrl);
         }
 
