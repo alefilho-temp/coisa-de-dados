@@ -41,12 +41,13 @@ public class Utils {
             
             String fileExtension = "";
             int lastDotIndex = path.lastIndexOf('.');
+
             if (lastDotIndex != -1 && lastDotIndex < path.length() - 1) {
                 fileExtension = path.substring(lastDotIndex + 1);
             } else {
                 throw new IllegalArgumentException("Invalid file path: no extension found.");
-            }
-    
+            }   
+
             Path destination = Path.of(imagePrefix + "products/" + imageName + "." + fileExtension);
     
             Files.copy(source, destination, StandardCopyOption.REPLACE_EXISTING);

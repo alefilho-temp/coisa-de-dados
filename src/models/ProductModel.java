@@ -65,6 +65,10 @@ public class ProductModel {
         this.sellerId = sellerId;
     }
 
+    public ProductModel() {
+
+    }
+
     public ProductModel(int id, String name, float price, float discount, String imagePath, String description, int categoryId, int sellerId) {
         this.id = id;
         this.name = name;
