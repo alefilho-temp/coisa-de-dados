@@ -87,6 +87,10 @@ public class CategoryModel {
         this.color = color;
     }
 
+    public CategoryModel() {
+        
+    }
+
     /**
      * Construtor da classe CategoryModel.
      * 

@@ -64,7 +64,7 @@ public class CategoryComponent extends VBox {
 
         setCursor(Cursor.HAND); // Define o cursor como mão
         setOnMouseClicked(event -> {
-            ViewController.navigate(new SearchView(category.getName(), SearchType.category)); // Navega para a visualização de busca da categoria
+            ViewController.navigate(new SearchView(category.getName(), SearchType.category, category.getId())); // Navega para a visualização de busca da categoria
         });
     }
 }

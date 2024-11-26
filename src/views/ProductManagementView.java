@@ -1,6 +1,8 @@
 package views;
 
 import java.io.File;
+
+import common.DataHolder;
 import controllers.ProductControl;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
@@ -180,7 +182,7 @@ public class ProductManagementView extends BorderPane {
             product.setImagePath(imagePath);
             product.setDescription(description);
             product.setCategoryId(categoryId);
-            product.setSellerId(1); // ID do vendedor fixo para exemplo
+            product.setSellerId(DataHolder.getSeller().getCadastroId()); // ID do vendedor fixo para exemplo
 
             try {
                 control.addProduct(product); // Adiciona o produto

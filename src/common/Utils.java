@@ -35,10 +35,21 @@ public class Utils {
      */
     public static Image getImage(String path) {
         try {
+            if (!(new File(imagePrefix + path).exists())) {
+                System.out.println("nao tem a image");
+                return new Image(new File(imagePrefix + "assets/placeholder.png").toURI().toURL().toString());
+            }
+
             return new Image(new File(imagePrefix + path).toURI().toURL().toString());
-        } catch (MalformedURLException e) {
+        } catch (Exception e) {
             // Retorna uma imagem de placeholder em caso de erro
-            return new Image(imagePrefix + "assets/placeholder.png");
+            try {
+                System.out.println("nao tem a image");
+                return new Image(new File(imagePrefix + "assets/placeholder.png").toURI().toURL().toString());
+            } catch (Exception e1) {
+                e1.printStackTrace();
+                return new Image("");
+            }
         }
     }
 
@@ -115,12 +126,14 @@ public class Utils {
 
     public static Cliente getClientByName(String name) {
         // TODO: Fazer o codigo de pegar o cliente pelo nome, retornar null se nao tiver
-        return null;
+        return new Cliente();
+        // return null;
     }
 
     public static Vendedor getSellerByName(String name) {
         // TODO: Fazer o codigo de pegar o cliente pelo nome, retornar null se nao tiver
-        return null;
+        return new Vendedor();
+        // return null;
     }
 
     public static int getCartId(Cliente client) {

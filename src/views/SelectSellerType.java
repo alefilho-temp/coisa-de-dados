@@ -64,7 +64,7 @@ public class SelectSellerType extends FlowPane {
         bussinessSellerButton.setTextFill(javafx.scene.paint.Color.WHITE);
         bussinessSellerButton.setPadding(new Insets(10.0));
         bussinessSellerButton.setCursor(Cursor.HAND);
-        personalSellerButton.setOnMouseClicked(event -> {
+        bussinessSellerButton.setOnMouseClicked(event -> {
             ViewController.navigate(new EnterSellerNameView()); 
         });
 
