@@ -1,9 +1,11 @@
+use master
+drop database Marketplace
 CREATE DATABASE Marketplace
 GO
 USE Marketplace
 GO
 CREATE TABLE Cadastro (
-    id INTEGER UNIQUE IDENTITY (1, 1),
+    id INTEGER IDENTITY (1, 1),
     Email VARCHAR(50) NOT NULL,
     Lougradouro VARCHAR(50) NOT NULL,
     Numero INTEGER,
@@ -11,55 +13,53 @@ CREATE TABLE Cadastro (
     Cep INTEGER NOT NULL,
     PRIMARY KEY (id)
 )
-
-INSERT INTO Cadastro (Email, Lougradouro, Numero, Bairro, Cep)  VALUES ('asfafsas', 'rqwrqrqw', 1432, '314143', 342142)
-GO
+go
 CREATE TABLE Telefone(
     Telefone INTEGER NOT NULL,
     CadastroId INTEGER NOT NULL,
     PRIMARY KEY(Telefone),
     FOREIGN KEY (CadastroId) REFERENCES Cadastro(id)
 )
-GO
+go
 CREATE TABLE Carrinho(
     Codigo INTEGER NOT NULL,
 	Valor_Total DECIMAL (6, 2) NOT NULL,
     PRIMARY KEY (Codigo)
 )
-GO
+go
 CREATE TABLE Vendedor (
 	Cadastro_id INTEGER PRIMARY KEY NOT NULL,
-	Nome_Loja VARCHAR(255),
+	Nome_Loja VARCHAR(255) not null,
 	Informacao_loja VARCHAR(80)
 	FOREIGN KEY (Cadastro_id) REFERENCES Cadastro(id)
-	)
-GO
+)
+go
 CREATE TABLE Vendedor_Pessoal (
 	CPF INTEGER NOT NULL,
-	VendedorCadastro_id INTEGER NOT NULL UNIQUE,
-	Nome_Loja VARCHAR(255) NOT NULL,
-	Informacao_Loja VARCHAR(80),
+	VendedorCadastro_id INTEGER NOT NULL,
 	Nome VARCHAR(80) NOT NULL,
 	Data_Nascimento DATE NOT NULL,
 	Inscricao_Estadual VARCHAR(50) NOT NULL
 	PRIMARY KEY (CPF, VendedorCadastro_id),
 	FOREIGN KEY (VendedorCadastro_id) REFERENCES Vendedor(Cadastro_id)
 	)
-GO
+	go
 CREATE TABLE Vendedor_Empresarial(
-    CNPJ INTEGER NOT NULL UNIQUE,
-    VendedorCadastro_id INTEGER NOT NULL UNIQUE,
+    CNPJ INTEGER NOT NULL,
+    VendedorCadastro_id INTEGER NOT NULL,
     Razao_Social VARCHAR(100) NOT NULL,
     Informacao_cobranca VARCHAR(50) NOT NULL,
     PRIMARY KEY(CNPJ, VendedorCadastro_id),
 	FOREIGN KEY (VendedorCadastro_id) REFERENCES Vendedor(Cadastro_id)
 )
-GO
+go
 CREATE TABLE Categoria (
 	Id INTEGER PRIMARY KEY IDENTITY (1, 1),
 	Nome VARCHAR(30) NOT NULL,
-	Cor VARCHAR(20) NOT NULL
+	Cor VARCHAR(20) NOT NULL,
+	Imagem VARCHAR(255) NOT NULL
 )
+go
 CREATE TABLE Produto (
 	Id_Produto INTEGER NOT NULL IDENTITY(1, 1) PRIMARY KEY,
 	quantidade INTEGER NOT NULL,
@@ -68,10 +68,11 @@ CREATE TABLE Produto (
 	descricao VARCHAR(2000),
 	VendedorCadastro_id INTEGER NOT NULL,
 	CategoriaId INTEGER NOT NULL,
+	Imagem VARCHAR(255) NOT NULL
 	FOREIGN KEY (VendedorCadastro_id) REFERENCES Vendedor(Cadastro_id),
 	FOREIGN KEY (CategoriaId) REFERENCES Categoria(Id)
 )
-GO
+go
 CREATE TABLE Cliente(
     CPF INTEGER NOT NULL,
     Nome_Usuario VARCHAR(80) NOT NULL,
@@ -80,12 +81,12 @@ CREATE TABLE Cliente(
     Data_Nascimento DATE NOT NULL,
     CadastroId INTEGER NOT NULL,
 	CarrinhoCodigo INTEGER NOT NULL,
-	Historico_CompraCodigo INTEGER NOT NULL,
     PRIMARY KEY (CPF, CadastroId),
     FOREIGN KEY (CadastroId) REFERENCES Cadastro(Id),
 	FOREIGN KEY (CarrinhoCodigo) REFERENCES Carrinho(Codigo),
 )
-GO
+go
+INSERT INTO Cliente (CPF, Nome_Usuario, Nome, Genero, Data_Nascimento, CadastroId, CarrinhoCodigo) 
 CREATE Table Cartao (
 	Numero INTEGER PRIMARY KEY NOT NULL,
 	Data_Vencimento DATE NOT NULL,
@@ -96,7 +97,7 @@ CREATE Table Cartao (
 	ClienteCadastroId INT NOT NULL,
 	FOREIGN KEY (ClienteCPF, ClienteCadastroId) REFERENCES Cliente(CPF, CadastroId)
 )
-GO
+go
 CREATE TABLE Cupon(
     Numero_Cupon INTEGER NOT NULL,
     ClienteCPF INTEGER NOT NULL,
@@ -105,9 +106,9 @@ CREATE TABLE Cupon(
     PRIMARY KEY (Numero_Cupon),
     FOREIGN KEY (ClienteCPF, ClienteCadastroId) REFERENCES Cliente(CPF, CadastroId)
 )
-GO
+go
 CREATE TABLE Compra(
-	Codigo INTEGER NOT NULL UNIQUE,
+	Codigo INTEGER NOT NULL,
 	ProdutoId_Produto INTEGER NOT NULL,
 	ClienteCPF INTEGER NOT NULL,
 	ClienteCadastroId INTEGER NOT NULL,
@@ -116,18 +117,7 @@ CREATE TABLE Compra(
 	PRIMARY KEY (Codigo, ProdutoId_Produto, ClienteCPF, ClienteCadastroId),
 	FOREIGN KEY (ClienteCPF, ClienteCadastroId) REFERENCES Cliente(CPF, CadastroId),
 )
-GO
-CREATE TABLE Socio(
-    Id_socio INTEGER NOT NULL,
-    CadastroId INTEGER NOT NULL,
-    Vendedor_EmpresarialCNPJ INTEGER NOT NULL,
-    Vendedor_EmpresarialCadastro_Id INTEGER NOT NULL
-    PRIMARY KEY (Id_socio, CadastroId),
-    FOREIGN KEY(CadastroId) REFERENCES Cadastro(Id),
-    FOREIGN KEY(Vendedor_EmpresarialCNPJ) REFERENCES Vendedor_Empresarial(CNPJ),
-    FOREIGN KEY(Vendedor_EmpresarialCadastro_Id) REFERENCES Vendedor_Empresarial(VendedorCadastro_id)
-)
-GO
+go
 CREATE TABLE Produto_Carrinho(
     ProdutoId_Produto INTEGER,
     CarrinhoCodigo INTEGER,
@@ -135,36 +125,87 @@ CREATE TABLE Produto_Carrinho(
     FOREIGN KEY (ProdutoId_Produto) REFERENCES Produto(id_Produto),
     FOREIGN KEY (CarrinhoCodigo) REFERENCES Carrinho(Codigo)
 )
-ALTER TABLE Produto ADD Imagem VARCHAR(255) NOT NULL
-ALTER TABLE Categoria ADD Imagem VARCHAR(255) NOT NULL
-ALTER TABLE Categoria DROP COLUMN Imagem 
+go
 
-ALTER TABLE Produto
-ALTER COLUMN descricao VARCHAR(2000);
+INSERT INTO Cadastro (Email, Lougradouro, Numero, Bairro, Cep)
+VALUES 
+('email1@gmail.com', 'Rua A', 123, 'Centro', 12345),
+('email2@gmail.com', 'Rua B', 456, 'Bairro 1', 23456),
+('email3@gmail.com', 'Rua C', 789, 'Bairro 2', 34567),
+('email4@gmail.com', 'Rua D', 101, 'Centro', 45678),
+('email5@gmail.com', 'Rua E', 102, 'Bairro 3', 56789);
 
-SELECT * FROM Cadastro
-UPDATE Cadastro SET email='adfgasava', Lougradouro='adfaaf', Numero=3214, Bairro='342qfas', Cep=231
-WHERE id = 10
+INSERT INTO Telefone (Telefone, CadastroId)
+VALUES 
+(11111111, 1), 
+(22222222, 2), 
+(33333333, 3), 
+(44444444, 4), 
+(55555555, 5);
+
+INSERT INTO Carrinho (Codigo, Valor_Total)
+VALUES 
+(1, 150.50), 
+(2, 200.00), 
+(3, 350.75), 
+(4, 400.10), 
+(5, 500.30);
+
+INSERT INTO Vendedor (Cadastro_id, Nome_Loja, Informacao_loja)
+VALUES 
+(1, 'Loja A', 'Informação A'), 
+(2, 'Loja B', 'Informação B'), 
+(3, 'Loja C', 'Informação C'), 
+(4, 'Loja D', 'Informação D'), 
+(5, 'Loja E', 'Informação E');
+
+INSERT INTO Vendedor_Pessoal (CPF, VendedorCadastro_id, Nome, Data_Nascimento, Inscricao_Estadual)
+VALUES 
+(123456789, 1, 'João', '1990-01-01', 'IS12345'),
+(987654321, 2, 'Maria', '1985-05-10', 'IS54321'),
+(456789123, 3, 'Pedro', '1995-12-15', 'IS67890'),
+(321654987, 4, 'Ana', '1988-07-20', 'IS98765'),
+(789123456, 5, 'Carlos', '1992-03-25', 'IS34567');
+
+INSERT INTO Categoria (Nome, Cor, Imagem)
+VALUES 
+('Azul', '1435', 'i1'),
+('Vermelho', '1435', 'i1'),
+('Verde', '1435', 'i1'),
+('Ciano', '1435', 'i1'),
+('Laranja', '1435', 'i1')
 
 
+INSERT INTO Produto (quantidade, preco_Unitario, nome, descricao, VendedorCadastro_id, CategoriaId, Imagem)
+VALUES 
+(10, 20.50, 'Produto A', 'Descrição A', 1, 1, 'imagemA.png'),
+(15, 30.00, 'Produto B', 'Descrição B', 2, 2, 'imagemB.png'),
+(20, 25.75, 'Produto C', 'Descrição C', 3, 3, 'imagemC.png'),
+(25, 35.50, 'Produto D', 'Descrição D', 4, 4, 'imagemD.png'),
+(30, 40.00, 'Produto E', 'Descrição E', 5, 5, 'imagemE.png');
 
+INSERT INTO Cliente (CPF, Nome_Usuario, Nome, Genero, Data_Nascimento, CadastroId, CarrinhoCodigo)  
+VALUES 
+(111111111, 'user1', 'João Silva', 'Masculino', '1990-01-01', 1, 1),
+(222222222, 'user2', 'Maria Santos', 'Feminino', '1985-02-15', 2, 2),
+(333333333, 'user3', 'Pedro Almeida', 'Masculino', '1995-03-20', 3, 3),
+(444444444, 'user4', 'Ana Oliveira', 'Feminino', '1992-04-25', 4, 4),
+(555555555, 'user5', 'Carlos Souza', 'Masculino', '1988-05-30', 5, 5);
 
+INSERT INTO Cupon (Numero_Cupon, ClienteCPF, ClienteCadastroId, Porcentagem_Desconto)  
+VALUES 
+(1, 111111111, 1, 10),
+(2, 222222222, 2, 15),
+(3, 333333333, 3, 20),
+(4, 444444444, 4, 25),
+(5, 555555555, 5, 30);
 
+INSERT INTO Compra (Codigo, ProdutoId_Produto, ClienteCPF, ClienteCadastroId, DataCompra, Quantidade_comprada)  
+VALUES 
+(1, 1, 111111111, 1, '2024-11-20', 2),
+(2, 2, 222222222, 2, '2024-11-21', 3),
+(3, 3, 333333333, 3, '2024-11-22', 1),
+(4, 4, 444444444, 4, '2024-11-23', 5),
+(5, 5, 555555555, 5, '2024-11-24', 4);
 
-INSERT INTO Vendedor (Cadastro_id, Nome_Loja, Informacao_loja) VALUES (1, 'Lixeira', 'aaahhhh')
-
-
-
-INSERT INTO Categoria (Nome, Cor) VALUES ('SQL Coisas', 'rgb(200, 100, 50)')
-
-
-
-
-
-SELECT * FROM Produto
-
-
-
-
-
-
+alter table Produto add Desconto int
