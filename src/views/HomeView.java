@@ -95,3 +95,11 @@ public class HomeView extends ContainerComponent {
         body.getChildren().add(new MarginBottomComponent());
     }
 }
+// cadastro 
+// cadastro cliente
+// cadastro vendedor
+// cadastro vendedor pessoal
+// cadastro vendedor empresarial
+// produto
+// cartao
+// 

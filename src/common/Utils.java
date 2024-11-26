@@ -10,6 +10,7 @@ import java.security.SecureRandom;
 
 import javafx.scene.image.Image;
 import models.Cliente;
+import models.Vendedor;
 
 /**
  * Classe utilitária que fornece métodos auxiliares para operações comuns.
@@ -112,12 +113,17 @@ public class Utils {
         return stringBuilder.toString();
     }
 
-    Cliente getClientByName() {
+    public static Cliente getClientByName(String name) {
         // TODO: Fazer o codigo de pegar o cliente pelo nome, retornar null se nao tiver
         return null;
     }
 
-    int createCart(Cliente client) {
+    public static Vendedor getSellerByName(String name) {
+        // TODO: Fazer o codigo de pegar o cliente pelo nome, retornar null se nao tiver
+        return null;
+    }
+
+    public static int getCartId(Cliente client) {
         // TODO: Fazer o codigo de criar o carrinho se nao tiver
         return 0;
     }

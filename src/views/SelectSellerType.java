@@ -12,16 +12,16 @@ import javafx.scene.layout.VBox;
  * 
  * @author Your Name
  */
-public class InitialScreenView extends FlowPane {
+public class SelectSellerType extends FlowPane {
 
     /**
      * Botão para acesso à área do cliente.
      */
-    protected final Button clientButton;
+    protected final Button bussinessSellerButton;
     /**
      * Botão para acesso à área do vendedor.
      */
-    protected final Button sellerButton;
+    protected final Button personalSellerButton;
     /**
      * Separador entre os botões.
      */
@@ -32,15 +32,15 @@ public class InitialScreenView extends FlowPane {
     protected final HBox hBox;
 
     /**
-     * Construtor da classe InitialScreenView.
+     * Construtor da classe SelectSellerType.
      */
-    public InitialScreenView() {
+    public SelectSellerType() {
 
         // Inicializa os elementos da interface
         hBox = new HBox();
-        clientButton = new Button();
+        bussinessSellerButton = new Button();
         separator = new VBox();
-        sellerButton = new Button();
+        personalSellerButton = new Button();
 
         // Configura as propriedades do FlowPane
         setAlignment(javafx.geometry.Pos.CENTER);
@@ -56,16 +56,16 @@ public class InitialScreenView extends FlowPane {
         hBox.setAlignment(javafx.geometry.Pos.CENTER);
 
         // Configura as propriedades do botão "Sou Cliente"
-        clientButton.setMnemonicParsing(false);
-        clientButton.setStyle("-fx-background-color: gray;");
-        clientButton.setText("Sou Cliente");
-        clientButton.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
-        clientButton.setTextFill(javafx.scene.paint.Color.WHITE);
-        clientButton.setPadding(new Insets(10.0));
-        clientButton.setOnMouseClicked(event -> {
-            ViewController.navigate(new EnterClientNameView()); 
+        bussinessSellerButton.setMnemonicParsing(false);
+        bussinessSellerButton.setStyle("-fx-background-color: gray;");
+        bussinessSellerButton.setText("Sou Vendedor Empresarial");
+        bussinessSellerButton.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
+        bussinessSellerButton.setTextFill(javafx.scene.paint.Color.WHITE);
+        bussinessSellerButton.setPadding(new Insets(10.0));
+        personalSellerButton.setOnMouseClicked(event -> {
+            ViewController.navigate(new EnterSellerNameView()); 
         });
-
+        
         // Configura as propriedades do separador
         separator.setAlignment(javafx.geometry.Pos.CENTER);
         separator.setPrefHeight(100.0);
@@ -74,20 +74,20 @@ public class InitialScreenView extends FlowPane {
         HBox.setMargin(separator, new Insets(0.0, 50.0, 0.0, 50.0));
 
         // Configura as propriedades do botão "Sou Vendedor"
-        sellerButton.setMnemonicParsing(false);
-        sellerButton.setStyle("-fx-background-color: gray;");
-        sellerButton.setText("Sou Vendedor");
-        sellerButton.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
-        sellerButton.setTextFill(javafx.scene.paint.Color.WHITE);
-        sellerButton.setPadding(new Insets(10.0));
-        sellerButton.setOnMouseClicked(event -> {
-            ViewController.navigate(new SelectSellerType()); 
+        personalSellerButton.setMnemonicParsing(false);
+        personalSellerButton.setStyle("-fx-background-color: gray;");
+        personalSellerButton.setText("Sou Vendedor Pessoal");
+        personalSellerButton.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
+        personalSellerButton.setTextFill(javafx.scene.paint.Color.WHITE);
+        personalSellerButton.setPadding(new Insets(10.0));
+        personalSellerButton.setOnMouseClicked(event -> {
+            ViewController.navigate(new EnterSellerNameView()); 
         });
 
         // Adiciona os botões e o separador ao HBox
-        hBox.getChildren().add(clientButton);
+        hBox.getChildren().add(bussinessSellerButton);
         hBox.getChildren().add(separator);
-        hBox.getChildren().add(sellerButton);
+        hBox.getChildren().add(personalSellerButton);
         
         // Adiciona o HBox ao FlowPane
         getChildren().add(hBox);

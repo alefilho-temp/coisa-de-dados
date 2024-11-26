@@ -9,14 +9,15 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import models.Cliente;
+import models.Vendedor;
 
-public class EnterClientNameView extends FlowPane {
+public class EnterSellerNameView extends FlowPane {
 
     protected final HBox hBox;
     protected final TextField textField;
     protected final Button button;
 
-    public EnterClientNameView() {
+    public EnterSellerNameView() {
         hBox = new HBox();
         textField = new TextField();
         button = new Button();
@@ -34,7 +35,7 @@ public class EnterClientNameView extends FlowPane {
 
         textField.setPrefHeight(40.0);
         textField.setPrefWidth(250.0);
-        textField.setPromptText("Digite seu nome");
+        textField.setPromptText("Digite seu login");
         textField.setStyle("-fx-background-color: white; -fx-border-color: black; -fx-border-radius: 10 0 0 10;");
         textField.setFont(new Font(14.0));
 
@@ -45,12 +46,12 @@ public class EnterClientNameView extends FlowPane {
         button.setTextFill(javafx.scene.paint.Color.WHITE);
         button.setPadding(new Insets(10.0));
         button.setOnMouseClicked(event -> {
-            Cliente client = Utils.getClientByName(textField.getText());
-            if (client != null) {
-                DataHolder.setClient(client);
-                ViewController.navigate(new HomeView()); 
+            Vendedor seller = Utils.getSellerByName(textField.getText());
+            if (seller != null) {
+                DataHolder.setSeller(seller);
+                ViewController.navigate(new HomeView()); // mandar para a tela dos crud
             } else {
-                ViewController.showAlert("Erro", "Usuario Invalido");
+                ViewController.showAlert("Erro", "Vendedor Invalido");
             }
         });
 
