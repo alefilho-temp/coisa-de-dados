@@ -2,6 +2,7 @@ package views;
 
 import common.ViewController;
 import javafx.geometry.Insets;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
@@ -62,6 +63,7 @@ public class InitialScreenView extends FlowPane {
         clientButton.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
         clientButton.setTextFill(javafx.scene.paint.Color.WHITE);
         clientButton.setPadding(new Insets(10.0));
+        clientButton.setCursor(Cursor.HAND);
         clientButton.setOnMouseClicked(event -> {
             ViewController.navigate(new EnterClientNameView()); 
         });
@@ -80,6 +82,7 @@ public class InitialScreenView extends FlowPane {
         sellerButton.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
         sellerButton.setTextFill(javafx.scene.paint.Color.WHITE);
         sellerButton.setPadding(new Insets(10.0));
+        sellerButton.setCursor(Cursor.HAND);
         sellerButton.setOnMouseClicked(event -> {
             ViewController.navigate(new SelectSellerType()); 
         });

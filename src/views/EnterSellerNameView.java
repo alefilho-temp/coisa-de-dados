@@ -3,6 +3,7 @@ import common.DataHolder;
 import common.Utils;
 import common.ViewController;
 import javafx.geometry.Insets;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
@@ -45,11 +46,12 @@ public class EnterSellerNameView extends FlowPane {
         button.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
         button.setTextFill(javafx.scene.paint.Color.WHITE);
         button.setPadding(new Insets(10.0));
+        button.setCursor(Cursor.HAND);
         button.setOnMouseClicked(event -> {
             Vendedor seller = Utils.getSellerByName(textField.getText());
             if (seller != null) {
                 DataHolder.setSeller(seller);
-                ViewController.navigate(new HomeView()); // mandar para a tela dos crud
+                ViewController.navigate(new MenuView()); // mandar para a tela dos crud
             } else {
                 ViewController.showAlert("Erro", "Vendedor Invalido");
             }

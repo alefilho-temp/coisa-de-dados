@@ -3,6 +3,7 @@ import common.DataHolder;
 import common.Utils;
 import common.ViewController;
 import javafx.geometry.Insets;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
@@ -44,6 +45,7 @@ public class EnterClientNameView extends FlowPane {
         button.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
         button.setTextFill(javafx.scene.paint.Color.WHITE);
         button.setPadding(new Insets(10.0));
+        button.setCursor(Cursor.HAND);
         button.setOnMouseClicked(event -> {
             Cliente client = Utils.getClientByName(textField.getText());
             if (client != null) {

@@ -25,7 +25,7 @@ import models.Cadastro;
 import models.Cliente;
 import service.ClienteException;
 
-public class ClienteView extends Application {
+public class ClienteView extends BorderPane {
     private Label lblId = new Label("");;
 
 	private TextField cpf;
@@ -51,10 +51,7 @@ public class ClienteView extends Application {
 		carrinhoid = new TextField();
 		genero.getItems().addAll("Masculino","Feminino","Outro","Prefiro nao Informar");
 		
-	}
-	@Override
-	public void start(Stage stage) throws ClienteException {
-		BorderPane tela = new BorderPane();
+		BorderPane tela = this;
 		VBox layout = new VBox(15); 
 		HBox botoes = new HBox(50);
 		 Button btnLimpar = new Button("*");
@@ -106,16 +103,14 @@ public class ClienteView extends Application {
 		tela.setBottom(tableView);
 		vincularPropriedes() ;
 		Gerercoluna();
-		Scene scn = new Scene(tela, 800, 550);
-		stage.setScene(scn);
-		stage.setTitle("Cadastro Cliente");
-		stage.show();
+
 		try { 
 	        controlCliente.pesquisarTodos();
 	        } catch(ClienteException e) { 
 	        	e.printStackTrace();
 	        }
 	}
+	
 	
 	  private void Gerercoluna() {
 		  TableColumn<Cliente, Integer> col1 = new TableColumn<>("CPF");

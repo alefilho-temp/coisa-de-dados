@@ -2,6 +2,7 @@ package views;
 
 import common.ViewController;
 import javafx.geometry.Insets;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
@@ -62,10 +63,11 @@ public class SelectSellerType extends FlowPane {
         bussinessSellerButton.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
         bussinessSellerButton.setTextFill(javafx.scene.paint.Color.WHITE);
         bussinessSellerButton.setPadding(new Insets(10.0));
+        bussinessSellerButton.setCursor(Cursor.HAND);
         personalSellerButton.setOnMouseClicked(event -> {
             ViewController.navigate(new EnterSellerNameView()); 
         });
-        
+
         // Configura as propriedades do separador
         separator.setAlignment(javafx.geometry.Pos.CENTER);
         separator.setPrefHeight(100.0);
@@ -80,6 +82,7 @@ public class SelectSellerType extends FlowPane {
         personalSellerButton.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
         personalSellerButton.setTextFill(javafx.scene.paint.Color.WHITE);
         personalSellerButton.setPadding(new Insets(10.0));
+        personalSellerButton.setCursor(Cursor.HAND);
         personalSellerButton.setOnMouseClicked(event -> {
             ViewController.navigate(new EnterSellerNameView()); 
         });

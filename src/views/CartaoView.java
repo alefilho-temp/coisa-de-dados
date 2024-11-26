@@ -23,7 +23,7 @@ import javafx.util.StringConverter;
 import javafx.util.converter.IntegerStringConverter;
 import models.Cartao;
 
-public class CartaoView extends Application {
+public class CartaoView extends BorderPane {
 
 	private ComboBox<String> txtTipo_Cartao = new ComboBox<String>();
 	private TextField txtNumero = new TextField();
@@ -41,14 +41,8 @@ public class CartaoView extends Application {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
 
-	private TableView<Cartao> tableView = new TableView<>();
-
-	@Override
-	public void start(Stage primaryStage) throws Exception {
-
-		BorderPane principal = new BorderPane();
+		BorderPane principal = this;
 
 		GridPane telaCadastro = new GridPane();
 		GridPane junto = new GridPane();
@@ -110,11 +104,6 @@ public class CartaoView extends Application {
 		vincularPropriedades();
 		principal.setTop(telaCadastro);
 		principal.setCenter(tableView);
-
-		Scene scn = new Scene(principal, 600, 600);
-		primaryStage.setScene(scn);
-		primaryStage.setTitle("Cadastro de cartao");
-		primaryStage.show();
 		
 		try { 
 	        controll.pesquisarTodos();
@@ -122,6 +111,8 @@ public class CartaoView extends Application {
 	         e.printStackTrace();
 	    }
 	}
+
+	private TableView<Cartao> tableView = new TableView<>();
 
 	public void generateColumns() {
 

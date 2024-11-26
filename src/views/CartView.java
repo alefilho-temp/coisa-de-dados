@@ -143,6 +143,13 @@ public class CartView extends ContainerComponent {
         updateFinalPrice();
     }
 
+    public void clean() {
+        for (int j = 0; j < itens.size(); j++) {
+            itens.remove(j); // Remove o item da lista
+            cartItensBox.getChildren().remove(j); // Remove o componente visual
+        }
+    }
+
     /**
      * Atualiza a quantidade de um item no carrinho.
      * 

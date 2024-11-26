@@ -22,7 +22,7 @@ import javafx.util.converter.IntegerStringConverter;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
-public class VendedorView extends Application {
+public class VendedorView extends BorderPane {
 	private TextField txtId = new TextField("");
 	private TextField txtNome = new TextField("");
 	private TextField txtInformacao = new TextField("");
@@ -30,9 +30,8 @@ public class VendedorView extends Application {
 	private VendedorControl control;
 	private TableView<Vendedor> tableView = new TableView<>();
 	
-	@Override
-	public void start(Stage stage) {
-		BorderPane panePrincipal = new BorderPane();
+	public VendedorView() {
+		BorderPane panePrincipal = this;
 		
 		try {
 			control = new VendedorControl();
@@ -83,16 +82,13 @@ public class VendedorView extends Application {
 		panePrincipal.setTop( pane );
 	    panePrincipal.setCenter(tableView);
 
-	    Scene scn = new Scene( panePrincipal, 600, 400);
-	    stage.setScene(scn);
-	    stage.setTitle("Cadastros");
-	    stage.show();
 	    try { 
 	        control.pesquisarTodos();
 	    } catch(Exception e) { 
 	         e.printStackTrace();
 	    }
 	}
+
 	public void generateColumns() { 
         TableColumn<Vendedor, Integer> col1 = new TableColumn<>("Id");
         col1.setCellValueFactory(new PropertyValueFactory<Vendedor, Integer>("cadastroId"));

@@ -14,7 +14,7 @@ import javafx.util.StringConverter;
 import javafx.util.converter.IntegerStringConverter;
 import models.Vendedor_Empresarial;
 
-public class Vendedor_EmpresarialView extends Application {
+public class Vendedor_EmpresarialView extends BorderPane {
 
     private TextField txtCadastroId = new TextField();
     private TextField txtCnpj = new TextField();
@@ -25,11 +25,8 @@ public class Vendedor_EmpresarialView extends Application {
 
     public Vendedor_EmpresarialView() {
         controlVendedorEmpresarial = new Vendedor_EmpresarialControl();
-    }
 
-    @Override
-    public void start(Stage stage) {
-        BorderPane panePrincipal = new BorderPane();
+        BorderPane panePrincipal = this;
         GridPane pane = new GridPane();
 
         // Layout dos campos
@@ -77,12 +74,6 @@ public class Vendedor_EmpresarialView extends Application {
 
         panePrincipal.setTop(pane);
         panePrincipal.setCenter(tableView);
-
-        // Configuração da cena
-        Scene scene = new Scene(panePrincipal, 800, 500);
-        stage.setScene(scene);
-        stage.setTitle("Cadastro de Vendedores Empresariais");
-        stage.show();
 
         try {
             controlVendedorEmpresarial.pesquisarTodos();

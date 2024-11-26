@@ -21,7 +21,7 @@ import javafx.util.StringConverter;
 import javafx.util.converter.IntegerStringConverter;
 import javafx.scene.control.Alert;
 
-public class CadastroView extends Application {
+public class CadastroView extends BorderPane {
 	private Label lbId = new Label("");
 	private TextField txtEmail = new TextField("");
 	private TextField txtLogradouro = new TextField("");
@@ -32,9 +32,8 @@ public class CadastroView extends Application {
 	private CadastroControl control;
 	private TableView<Cadastro> tableView = new TableView<>();
 	
-	@Override
-	public void start(Stage stage) {
-		BorderPane panePrincipal = new BorderPane();
+	public CadastroView() {
+		BorderPane panePrincipal = this;
 		
 		try {
 			control = new CadastroControl();
@@ -91,10 +90,6 @@ public class CadastroView extends Application {
 		panePrincipal.setTop( pane );
 	    panePrincipal.setCenter(tableView);
 
-	    Scene scn = new Scene( panePrincipal, 600, 400);
-	    stage.setScene(scn);
-	    stage.setTitle("Cadastros");
-	    stage.show();
 	    try { 
 	        control.pesquisarTodos();
 	    } catch(Exception e) { 
@@ -164,7 +159,7 @@ public class CadastroView extends Application {
             System.out.println( "Selecionado o contato ==> " + novo);
             control.entidadeParaTela( novo );
         });
-    }
+	}
 
     public void vincularPropriedes() { 
         Bindings.bindBidirectional(lbId.textProperty(), control.idProperty(), 

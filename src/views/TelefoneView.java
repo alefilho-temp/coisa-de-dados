@@ -21,7 +21,7 @@ import javafx.util.StringConverter;
 import javafx.util.converter.IntegerStringConverter;
 import models.TelefoneModel;
 
-public class TelefoneView extends Application {
+public class TelefoneView extends BorderPane {
 
     private TextField txtTelefone = new TextField("");
     private TextField txtCadastroId = new TextField("");
@@ -30,9 +30,8 @@ public class TelefoneView extends Application {
     
     private TelefoneControl control;
 		
-	@Override
-	public void start(Stage stage) throws Exception {
-		BorderPane panePrincipal = new BorderPane();
+	public TelefoneView() {
+		BorderPane panePrincipal = this;
         control = new TelefoneControl();
 
         GridPane paneForm = new GridPane();
@@ -70,10 +69,6 @@ public class TelefoneView extends Application {
         panePrincipal.setTop(paneForm);
         panePrincipal.setCenter(tableView);
 
-        Scene scn = new Scene(panePrincipal, 600, 400);
-        stage.setScene(scn);
-        stage.setTitle("Telefones");
-        stage.show();
         try { 
         control.pesquisarTodos();
         } catch(Exception e) { 
@@ -147,7 +142,4 @@ public class TelefoneView extends Application {
 	        			(StringConverter) new IntegerStringConverter());
 	    }
 
-	    public static void main(String[] args) {
-	        Application.launch(TelefoneView.class, args);
-	    }
 }

@@ -8,7 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import views.CategoryView;
-import views.HomeView;
+import views.InitialScreenView;
 import views.ProductManagementView;
 
 /**
@@ -33,9 +33,9 @@ public class App extends Application {
 
         viewController = new ViewController(stage); // Inicializa o controlador de visualização
 
-        HomeView home = new HomeView(); // Cria a visualização inicial (HomeView)
+        InitialScreenView initialScreen = new InitialScreenView(); // Cria a visualização inicial (HomeView)
 
-        Scene mainScene = new Scene(home, 1080, 720); // Cria a cena principal
+        Scene mainScene = new Scene(initialScreen, 1080, 720); // Cria a cena principal
 
         // Adiciona um filtro para eventos de teclado
         mainScene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
