@@ -1,5 +1,8 @@
-use master
-drop database Marketplace
+
+
+Use Master
+DROP DATABASE Marketplace
+
 CREATE DATABASE Marketplace
 GO
 USE Marketplace
@@ -13,27 +16,27 @@ CREATE TABLE Cadastro (
     Cep INTEGER NOT NULL,
     PRIMARY KEY (id)
 )
-go
+GO
 CREATE TABLE Telefone(
     Telefone INTEGER NOT NULL,
     CadastroId INTEGER NOT NULL,
     PRIMARY KEY(Telefone),
     FOREIGN KEY (CadastroId) REFERENCES Cadastro(id)
 )
-go
+GO
 CREATE TABLE Carrinho(
     Codigo INTEGER NOT NULL,
 	Valor_Total DECIMAL (6, 2) NOT NULL,
     PRIMARY KEY (Codigo)
 )
-go
+GO
 CREATE TABLE Vendedor (
 	Cadastro_id INTEGER PRIMARY KEY NOT NULL,
 	Nome_Loja VARCHAR(255) not null,
 	Informacao_loja VARCHAR(80)
 	FOREIGN KEY (Cadastro_id) REFERENCES Cadastro(id)
 )
-go
+GO
 CREATE TABLE Vendedor_Pessoal (
 	CPF INTEGER NOT NULL,
 	VendedorCadastro_id INTEGER NOT NULL,
@@ -43,7 +46,7 @@ CREATE TABLE Vendedor_Pessoal (
 	PRIMARY KEY (CPF, VendedorCadastro_id),
 	FOREIGN KEY (VendedorCadastro_id) REFERENCES Vendedor(Cadastro_id)
 	)
-	go
+GO
 CREATE TABLE Vendedor_Empresarial(
     CNPJ INTEGER NOT NULL,
     VendedorCadastro_id INTEGER NOT NULL,
@@ -52,27 +55,28 @@ CREATE TABLE Vendedor_Empresarial(
     PRIMARY KEY(CNPJ, VendedorCadastro_id),
 	FOREIGN KEY (VendedorCadastro_id) REFERENCES Vendedor(Cadastro_id)
 )
-go
+GO
 CREATE TABLE Categoria (
 	Id INTEGER PRIMARY KEY IDENTITY (1, 1),
 	Nome VARCHAR(30) NOT NULL,
 	Cor VARCHAR(20) NOT NULL,
 	Imagem VARCHAR(255) NOT NULL
 )
-go
+GO
 CREATE TABLE Produto (
 	Id_Produto INTEGER NOT NULL IDENTITY(1, 1) PRIMARY KEY,
 	quantidade INTEGER NOT NULL,
 	preco_Unitario	DECIMAL(6, 2) NOT NULL,
 	nome VARCHAR(100) NOT NULL,
-	descricao VARCHAR(2000),
+	descricao VARCHAR(255),
 	VendedorCadastro_id INTEGER NOT NULL,
 	CategoriaId INTEGER NOT NULL,
-	Imagem VARCHAR(255) NOT NULL
+	Imagem VARCHAR(255) NOT NULL,
+	Desconto INTEGER,
 	FOREIGN KEY (VendedorCadastro_id) REFERENCES Vendedor(Cadastro_id),
 	FOREIGN KEY (CategoriaId) REFERENCES Categoria(Id)
 )
-go
+GO
 CREATE TABLE Cliente(
     CPF INTEGER NOT NULL,
     Nome_Usuario VARCHAR(80) NOT NULL,
@@ -85,8 +89,7 @@ CREATE TABLE Cliente(
     FOREIGN KEY (CadastroId) REFERENCES Cadastro(Id),
 	FOREIGN KEY (CarrinhoCodigo) REFERENCES Carrinho(Codigo),
 )
-go
-INSERT INTO Cliente (CPF, Nome_Usuario, Nome, Genero, Data_Nascimento, CadastroId, CarrinhoCodigo) 
+GO
 CREATE Table Cartao (
 	Numero INTEGER PRIMARY KEY NOT NULL,
 	Data_Vencimento DATE NOT NULL,
@@ -97,16 +100,7 @@ CREATE Table Cartao (
 	ClienteCadastroId INT NOT NULL,
 	FOREIGN KEY (ClienteCPF, ClienteCadastroId) REFERENCES Cliente(CPF, CadastroId)
 )
-go
-CREATE TABLE Cupon(
-    Numero_Cupon INTEGER NOT NULL,
-    ClienteCPF INTEGER NOT NULL,
-	ClienteCadastroId INTEGER NOT NULL,
-    Porcentagem_Desconto INTEGER NOT NULL,
-    PRIMARY KEY (Numero_Cupon),
-    FOREIGN KEY (ClienteCPF, ClienteCadastroId) REFERENCES Cliente(CPF, CadastroId)
-)
-go
+GO
 CREATE TABLE Compra(
 	Codigo INTEGER NOT NULL,
 	ProdutoId_Produto INTEGER NOT NULL,
@@ -117,15 +111,22 @@ CREATE TABLE Compra(
 	PRIMARY KEY (Codigo, ProdutoId_Produto, ClienteCPF, ClienteCadastroId),
 	FOREIGN KEY (ClienteCPF, ClienteCadastroId) REFERENCES Cliente(CPF, CadastroId),
 )
-go
+GO
 CREATE TABLE Produto_Carrinho(
     ProdutoId_Produto INTEGER,
     CarrinhoCodigo INTEGER,
-	Quantidade_Carrinho INTEGER NOT NULL,
+	Quantidade_Carrinho INTEGER,
     FOREIGN KEY (ProdutoId_Produto) REFERENCES Produto(id_Produto),
     FOREIGN KEY (CarrinhoCodigo) REFERENCES Carrinho(Codigo)
 )
 go
+INSERT INTO Categoria (Nome, Cor, Imagem) 
+VALUES 
+('Eletrônicos', 'Azul', 'eletronicos.png'),
+('Roupas', 'Vermelho', 'roupas.jpg'),
+('Alimentos', 'Verde', 'alimentos.png'),
+('Esportes', 'Amarelo', 'esportes.png'),
+('Livros', 'Marrom', 'livros.png');
 
 INSERT INTO Cadastro (Email, Lougradouro, Numero, Bairro, Cep)
 VALUES 
@@ -133,7 +134,12 @@ VALUES
 ('email2@gmail.com', 'Rua B', 456, 'Bairro 1', 23456),
 ('email3@gmail.com', 'Rua C', 789, 'Bairro 2', 34567),
 ('email4@gmail.com', 'Rua D', 101, 'Centro', 45678),
-('email5@gmail.com', 'Rua E', 102, 'Bairro 3', 56789);
+('email5@gmail.com', 'Rua E', 102, 'Bairro 3', 56789),
+('tecnologia@email.com', 'Rua das Inovações', 100, 'Centro', 12345678),
+('moda@email.com', 'Avenida das Estrelas', 200, 'Jardim Europa', 87654321),
+('supermercado@email.com', 'Rua do Verde', 300, 'Bairro Alegre', 11223344),
+('esporte@email.com', 'Rua da Vitória', 400, 'Esplanada', 44332211),
+('livraria@email.com', 'Praça do Saber', 500, 'Centro Histórico', 99887766);
 
 INSERT INTO Telefone (Telefone, CadastroId)
 VALUES 
@@ -157,7 +163,12 @@ VALUES
 (2, 'Loja B', 'Informação B'), 
 (3, 'Loja C', 'Informação C'), 
 (4, 'Loja D', 'Informação D'), 
-(5, 'Loja E', 'Informação E');
+(5, 'Loja E', 'Informação E'),
+(6, 'Loja Tech', 'Tecnologia e eletrônicos'),
+(7, 'Moda Vip', 'Roupas de alto padrão'),
+(8, 'Supermercado Verde', 'Produtos naturais e orgânicos'),
+(9, 'Esporte Total', 'Equipamentos esportivos'),
+(10, 'Livraria Central', 'Livros e papelaria');
 
 INSERT INTO Vendedor_Pessoal (CPF, VendedorCadastro_id, Nome, Data_Nascimento, Inscricao_Estadual)
 VALUES 
@@ -166,15 +177,6 @@ VALUES
 (456789123, 3, 'Pedro', '1995-12-15', 'IS67890'),
 (321654987, 4, 'Ana', '1988-07-20', 'IS98765'),
 (789123456, 5, 'Carlos', '1992-03-25', 'IS34567');
-
-INSERT INTO Categoria (Nome, Cor, Imagem)
-VALUES 
-('Azul', '1435', 'i1'),
-('Vermelho', '1435', 'i1'),
-('Verde', '1435', 'i1'),
-('Ciano', '1435', 'i1'),
-('Laranja', '1435', 'i1')
-
 
 INSERT INTO Produto (quantidade, preco_Unitario, nome, descricao, VendedorCadastro_id, CategoriaId, Imagem)
 VALUES 
@@ -192,6 +194,14 @@ VALUES
 (444444444, 'user4', 'Ana Oliveira', 'Feminino', '1992-04-25', 4, 4),
 (555555555, 'user5', 'Carlos Souza', 'Masculino', '1988-05-30', 5, 5);
 
+INSERT INTO Cartao (Numero, Data_Vencimento, Codigo_Seguranca, Tipo, Nome_Cartao, ClienteCPF, ClienteCadastroId)  
+VALUES 
+(10001, '2025-01-01', 123, 'Crédito', 'Cartão João', 111111111, 1),
+(10002, '2026-02-15', 456, 'Débito', 'Cartão Maria', 222222222, 2),
+(10003, '2024-03-20', 789, 'Crédito', 'Cartão Pedro', 333333333, 3),
+(10004, '2025-04-25', 321, 'Débito', 'Cartão Ana', 444444444, 4),
+(10005, '2027-05-30', 654, 'Crédito', 'Cartão Carlos', 555555555, 5);
+
 INSERT INTO Cupon (Numero_Cupon, ClienteCPF, ClienteCadastroId, Porcentagem_Desconto)  
 VALUES 
 (1, 111111111, 1, 10),
@@ -202,10 +212,92 @@ VALUES
 
 INSERT INTO Compra (Codigo, ProdutoId_Produto, ClienteCPF, ClienteCadastroId, DataCompra, Quantidade_comprada)  
 VALUES 
-(1, 1, 111111111, 1, '2024-11-20', 2),
-(2, 2, 222222222, 2, '2024-11-21', 3),
+(1, 6, 111111111, 1, '2024-11-20', 2),
+(2, 7, 222222222, 2, '2024-11-21', 3),
 (3, 3, 333333333, 3, '2024-11-22', 1),
 (4, 4, 444444444, 4, '2024-11-23', 5),
 (5, 5, 555555555, 5, '2024-11-24', 4);
 
-alter table Produto add Desconto int
+INSERT INTO Produto_Carrinho (ProdutoId_Produto, CarrinhoCodigo, Quantidade_Carrinho)  
+VALUES 
+(5, 5, 2),
+(4, 5, 1),
+(3, 5, 4),
+(4, 5, 3),
+(5, 5, 5);
+
+INSERT INTO Vendedor_Empresarial (CNPJ, VendedorCadastro_id, Razao_Social, Informacao_cobranca)
+VALUES 
+(1111111, 6, 'Empresa Alfa LTDA', 'Cobrança via boleto'),
+(222222, 7, 'Beta Comércio ME', 'Cobrança via cartão'),
+(3333333, 8, 'Gama Indústria S/A', 'Cobrança mista'),
+(4444444, 9, 'Delta Serviços EIRELI', 'Cobrança via pix'),
+(5555555, 10, 'Épsilon Consultoria', 'Cobrança via depósito');
+
+SELECT com.DataCompra, com.Quantidade_comprada * po.preco_Unitario AS valor_total, po.nome, ca.Nome, cl.Nome, ve.Nome_Loja
+FROM Compra com
+INNER JOIN Produto po
+ON com.ProdutoId_Produto = po.Id_Produto
+INNER JOIN Categoria ca
+ON po.Id_Produto = ca.Id
+INNER JOIN Cliente cl
+ON com.ClienteCadastroId = cl.CadastroId
+INNER JOIN Vendedor ve
+ON po.VendedorCadastro_id = ve.Cadastro_id
+
+SELECT pr.nome, ca.Valor_Total, pc.Quantidade_Carrinho
+FROM Carrinho ca
+INNER JOIN Produto_Carrinho pc
+ON ca.Codigo = pc.CarrinhoCodigo
+INNER JOIN Produto pr
+ON pc.ProdutoId_Produto = pr.Id_Produto
+WHERE ca.Codigo = 1
+
+SELECT po.Id_Produto, po.nome, po.preco_Unitario, po.Desconto, po.Imagem, po.descricao, po.CategoriaId, po.VendedorCadastro_id, pc.Quantidade_Carrinho FROM Produto po
+INNER JOIN Produto_Carrinho pc
+ON po.Id_Produto = pc.ProdutoId_Produto
+INNER JOIN Carrinho ca
+ON pc.CarrinhoCodigo = ca.Codigo
+WHERE ca.Codigo = 5
+
+SELECT pr.nome, ve.Nome_Loja, co.Quantidade_comprada
+FROM Vendedor ve
+INNER JOIN Produto pr
+ON ve.Cadastro_id = pr.VendedorCadastro_id
+INNER JOIN Compra co
+ON pr.Id_Produto = co.ProdutoId_Produto 
+WHERE co.Quantidade_comprada = (SELECT MAX(Quantidade_comprada) FROM Compra)
+
+SELECT pr.nome, ve.Nome_Loja, co.Quantidade_comprada
+FROM Vendedor ve
+INNER JOIN Produto pr
+ON ve.Cadastro_id = pr.VendedorCadastro_id
+INNER JOIN Compra co
+ON pr.Id_Produto = co.ProdutoId_Produto 
+WHERE co.Quantidade_comprada = (SELECT MIN(Quantidade_comprada) FROM Compra)
+
+SELECT po.nome, co.DataCompra, po.preco_Unitario * co.Quantidade_comprada AS valor_total_compra, ve.Nome_Loja
+FROM Compra co
+INNER JOIN Produto po
+ON co.ProdutoId_Produto = po.Id_Produto
+INNER JOIN Vendedor ve
+ON po.VendedorCadastro_id = ve.Cadastro_id
+WHERE co.DataCompra = '20/11/2024'
+
+DELETE Produto_Carrinho
+
+UPDATE Produto_Carrinho SET Quantidade_Carrinho = 10
+WHERE ProdutoId_Produto = 5
+
+SELECT * FROM Cadastro;
+SELECT * FROM Telefone;
+SELECT * FROM Carrinho;
+SELECT * FROM Vendedor;
+SELECT * FROM Vendedor_Pessoal;
+SELECT * FROM Vendedor_Empresarial;
+SELECT * FROM Categoria;
+SELECT * FROM Produto;
+SELECT * FROM Cliente;
+SELECT * FROM Cartao;
+SELECT * FROM Compra;
+SELECT * FROM Produto_Carrinho;
