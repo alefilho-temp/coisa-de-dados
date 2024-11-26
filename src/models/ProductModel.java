@@ -166,6 +166,15 @@ public class ProductModel {
      */
     public void setSellerId(int sellerId) {
         this.sellerId = sellerId;
+    } 
+    private int quantity;
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     /**

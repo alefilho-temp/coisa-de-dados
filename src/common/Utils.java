@@ -8,9 +8,13 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.security.SecureRandom;
 
+import daos.CartDAOImpl;
 import javafx.scene.image.Image;
 import models.Cliente;
 import models.Vendedor;
+import service.ClienteDAOImpl;
+import service.ClienteException;
+import service.VendedorDAOImpl;
 
 /**
  * Classe utilitária que fornece métodos auxiliares para operações comuns.
@@ -20,7 +24,7 @@ import models.Vendedor;
  * 
  */
 public class Utils {
-    
+
     // Prefixo para o caminho das imagens
     private static String imagePrefix = "./";
 
@@ -124,20 +128,29 @@ public class Utils {
         return stringBuilder.toString();
     }
 
-    public static Cliente getClientByName(String name) {
-        // TODO: Fazer o codigo de pegar o cliente pelo nome, retornar null se nao tiver
-        return new Cliente();
-        // return null;
+    public static Cliente getClientByName(String name) throws ClienteException {
+        Cliente c = ClienteDAOImpl.pesquisarporNome(name);
+        if(c != null)return c;
+        // o codigo de pegar o cliente pelo nome, retornar null se nao tiver
+        return null;
     }
 
     public static Vendedor getSellerByName(String name) {
-        // TODO: Fazer o codigo de pegar o cliente pelo nome, retornar null se nao tiver
-        return new Vendedor();
-        // return null;
+        Vendedor v =  VendedorDAOImpl.pesquisarNome(name);
+        if(v != null) return v;
+        return null;
     }
 
-    public static int getCartId(Cliente client) {
-        // TODO: Fazer o codigo de criar o carrinho se nao tiver
-        return 0;
+    public static int getCartId() {
+    	int n = 0; 
+    	try {
+			 n = CartDAOImpl.pegarId();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	 if(n != 0) {
+    		 return n;
+    	 }
+    	 return CartDAOImpl.criarId();
     }
 }

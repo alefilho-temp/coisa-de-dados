@@ -1,17 +1,26 @@
 package views;
 
 import java.io.File;
+import java.util.List;
 
-import common.DataHolder;
 import controllers.ProductControl;
 import javafx.geometry.Insets;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.web.HTMLEditor;
 import javafx.stage.FileChooser;
+import models.CategoryModel;
 import models.ProductModel;
+import service.CategoryDAOImpl;
 
 /**
  * Classe que representa a visualização de gerenciamento de produtos.
@@ -28,6 +37,8 @@ public class ProductManagementView extends BorderPane {
     private TableView<ProductModel> productTableView; // Tabela para exibição dos produtos
     private ProductControl control; // Controle de produtos
     private ProductModel selectedProduct; // Produto atualmente selecionado
+    private List<CategoryModel> categorias;
+    private CategoryDAOImpl DaoImpl = new CategoryDAOImpl();
 
     /**
      * Construtor da classe ProductManagementView.
@@ -92,7 +103,14 @@ public class ProductManagementView extends BorderPane {
 
         Label categoryIdLabel = new Label("Categoria:");
         categoryIdComboBox = new ComboBox<>();
-        categoryIdComboBox.getItems().addAll(1, 2, 3, 4, 5); // IDs de categorias de exemplo
+        try {
+			categorias = DaoImpl.pesquisarTodos();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+        for(CategoryModel c : categorias) {
+        	categoryIdComboBox.getItems().add(c.getId()); // IDs de categorias
+        	}
 
         Button submitButton = new Button("Salvar");
         submitButton.setOnAction(e -> saveProduct()); // Ação ao clicar no botão de salvar
@@ -182,7 +200,7 @@ public class ProductManagementView extends BorderPane {
             product.setImagePath(imagePath);
             product.setDescription(description);
             product.setCategoryId(categoryId);
-            product.setSellerId(DataHolder.getSeller().getCadastroId()); // ID do vendedor fixo para exemplo
+            product.setSellerId(1); // ID do vendedor fixo para exemplo
 
             try {
                 control.addProduct(product); // Adiciona o produto

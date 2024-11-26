@@ -11,6 +11,4 @@ public interface ClienteDao {
 	void atualizar(Cliente c) throws ClienteException;
 	void remover(Cliente c) throws ClienteException ;
 	List<Cliente> pesquisarTodos() throws ClienteException;
-	
-
 }

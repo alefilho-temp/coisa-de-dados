@@ -4,6 +4,8 @@ import common.Utils;
 import common.ViewController;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -14,6 +16,8 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.scene.web.WebView;
 import models.ProductModel;
+import daos.CartDAO;
+import daos.CartDAOImpl;
 import models.SellerModel;
 import views.SearchView;
 import views.SearchView.SearchType;
@@ -47,6 +51,7 @@ public class ProductDetailsComponent extends TilePane {
     protected final HBox addToCartButtonBox; // Caixa para o botão de adicionar ao carrinho
     protected final Button addToCartButton; // Botão de adicionar ao carrinho
     protected final Text sellerName; // Nome do vendedor
+    private CartDAO cart;
 
     /**
      * Construtor do componente ProductDetailsComponent.
@@ -169,6 +174,21 @@ public class ProductDetailsComponent extends TilePane {
         buyButton.setPadding(new Insets(10.0, 50.0, 10.0, 50.0));
         buyButton.setCursor(Cursor.HAND);
 
+        buyButton.setOnAction(e -> {
+            cart = new CartDAOImpl();
+            try {
+                cart.realizarCompra(product);
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Compra realizada");
+                alert.setHeaderText(null);
+                alert.setContentText("A compra foi realizada com sucesso!");
+                alert.showAndWait();
+            } catch (Exception e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        });
+
         // Criação da caixa para o botão de adicionar ao carrinho
         addToCartButtonBox = new HBox();
         addToCartButtonBox.setAlignment(javafx.geometry.Pos.CENTER);
@@ -179,6 +199,16 @@ public class ProductDetailsComponent extends TilePane {
         addToCartButton.setFont(new Font(18.0));
         addToCartButton.setPadding(new Insets(10.0, 50.0, 10.0, 50.0));
         addToCartButton.setCursor(Cursor.HAND);
+
+        addToCartButton.setOnAction(e -> {
+            cart = new CartDAOImpl();
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Compra realizada");
+            alert.setHeaderText(null);
+            alert.setContentText("Adicionado ao carrinho");
+            alert.showAndWait();
+            cart.adicionarAoCarrinho(product);
+        });
 
         // Criação do nome do vendedor
         sellerName = new Text();

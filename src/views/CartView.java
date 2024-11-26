@@ -1,12 +1,15 @@
 package views;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import components.CartItemComponent;
 import components.ContainerComponent;
 import components.MarginBottomComponent;
 import components.NavComponent;
 import components.ReturnBarComponent;
+import daos.CartDAO;
+import daos.CartDAOImpl;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
@@ -25,6 +28,7 @@ import models.ProductModel;
  * do usuário relacionadas à finalização da compra.
  */
 public class CartView extends ContainerComponent {
+    CartDAO cart;
     protected final HBox infoBox; // Caixa que contém informações do carrinho
     protected final Text finalPrice; // Texto que exibe o preço final
     protected final AnchorPane anchorPane; // Painel para layout
@@ -69,6 +73,15 @@ public class CartView extends ContainerComponent {
         finishCart.setFont(new Font(14.0));
         finishCart.setCursor(Cursor.HAND);
 
+        finishCart.setOnAction(e -> {
+            try {
+                cart.finalizarCompra();
+            } catch (Exception e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        });
+
         infoBox.getChildren().add(finalPrice);
         infoBox.getChildren().add(anchorPane);
         infoBox.getChildren().add(finishCart);
@@ -87,8 +100,18 @@ public class CartView extends ContainerComponent {
      * Adiciona os itens à lista e à interface do usuário.
      */
     public void getItensFromDB() {
+        try {   
+            cart = new CartDAOImpl();
+            List<CartItemModel> listinha = cart.getProductsCar();
+            for(CartItemModel cart : listinha) {
+                itens.add(cart);
+                cartItensBox.getChildren().add(new CartItemComponent(this, cart));
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
         // Adiciona itens ao carrinho
-        for (int i = 0; i < 8; i++) {
+        /*for (int i = 0; i < 8; i++) {
             CartItemModel item = new CartItemModel(
                 0, 
                 new ProductModel(
@@ -118,7 +141,8 @@ public class CartView extends ContainerComponent {
             );
             itens.add(item);
             cartItensBox.getChildren().add(new CartItemComponent(this, item));
-        }
+        }*/
+            
 
         updateFinalPrice(); // Atualiza o preço final após adicionar os itens
     }
@@ -141,13 +165,6 @@ public class CartView extends ContainerComponent {
         }
         // Atualize o preço final se necessário
         updateFinalPrice();
-    }
-
-    public void clean() {
-        for (int j = 0; j < itens.size(); j++) {
-            itens.remove(j); // Remove o item da lista
-            cartItensBox.getChildren().remove(j); // Remove o componente visual
-        }
     }
 
     /**

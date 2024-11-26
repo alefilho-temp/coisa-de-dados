@@ -31,7 +31,7 @@ public class ProductDAOImpl implements ProductDAO {
             pst.setString(4, product.getDescription());
             pst.setInt(5, product.getCategoryId());
             pst.setInt(6, product.getSellerId());
-            pst.setInt(7, 10);
+            pst.setInt(7, product.getQuantity());
             pst.executeUpdate();
         }
     }

@@ -143,4 +143,61 @@ public class ClienteDAOImpl implements ClienteDao {
 		}
 		return lista;
 	}
+	
+	public static Cliente pesquisarporNome(String nome) throws ClienteException {
+		Cliente c = new Cliente();
+		
+		Connection con;
+		try {
+			con = DBConnection.getConnection();
+			String sql = """
+					SELECT * FROM Cliente WHERE Nome LIKE ?
+					""";
+			PreparedStatement stm = con.prepareStatement(sql);
+			stm.setString(1, "%" + nome + "%");
+			ResultSet rs = stm.executeQuery();
+			while (rs.next()) {
+				c.setCpf(rs.getInt("CPF"));
+				c.setUsuario(rs.getString("Nome_Usuario"));
+				c.setUsuario(rs.getString("Nome"));
+				c.setGenero(rs.getString("Genero"));
+				c.setNascimento(rs.getDate("Data_Nascimento").toLocalDate());
+				c.setCadastroId(rs.getInt("CadastroId"));
+				c.setCarrinhoid(rs.getInt("CarrinhoCodigo"));
+			}
+		} catch (SQLException | ClassNotFoundException e) {
+			e.printStackTrace();
+			throw new ClienteException(e);
+		}
+		return c;
+	}
+	
+	public static Cliente pesquisarCartID(int carrinhoid) throws ClienteException {
+		Cliente c = new Cliente();
+		
+		Connection con;
+		try {
+			con = DBConnection.getConnection();
+			String sql = """
+					SELECT * FROM Cliente WHERE carrinhoid = ?
+					""";
+			PreparedStatement stm = con.prepareStatement(sql);
+			stm.setInt(1, carrinhoid);
+			ResultSet rs = stm.executeQuery();
+			while (rs.next()) {
+				c.setCpf(rs.getInt("CPF"));
+				c.setUsuario(rs.getString("Nome_Usuario"));
+				c.setUsuario(rs.getString("Nome"));
+				c.setGenero(rs.getString("Genero"));
+				c.setNascimento(rs.getDate("Data_Nascimento").toLocalDate());
+				c.setCadastroId(rs.getInt("CadastroId"));
+				c.setCarrinhoid(rs.getInt("CarrinhoCodigo"));
+			}
+		} catch (SQLException | ClassNotFoundException e) {
+			e.printStackTrace();
+			throw new ClienteException(e);
+		}
+		return c;
+	}
+
 }
